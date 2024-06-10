@@ -13,7 +13,15 @@ interface Product {
     sale_date: string;
 }
 
-const SalesAnalytics: React.FC = () => {
+interface SalesAnalyticsProps {
+    filterDates: {
+        startDate: string;
+        endDate: string;
+    };
+}
+
+
+const SalesAnalytics: React.FC<SalesAnalyticsProps> = ({ filterDates }) => {
 
     // Using react hooks to set and update state for various data fields
     const [products, setProducts] = useState<Product[]>([]);
@@ -29,10 +37,21 @@ const SalesAnalytics: React.FC = () => {
         axios.get('/paper-sales.json')
             .then(response => {
                 const data: Product[] = response.data.products;
-                setProducts(data);
-                calculateMetrics(data);
+
+                // Convert filter dates to milliseconds for comparison
+                const startMilliseconds = new Date(filterDates.startDate).getTime();
+                const endMilliseconds = new Date(filterDates.endDate).getTime();
+
+                // Only include data within the filter dates
+                const filteredData = data.filter(product => {
+                    const productMilliseconds = new Date(product.sale_date).getTime();
+                    return productMilliseconds >= startMilliseconds && productMilliseconds <= endMilliseconds;
+                });
+
+                setProducts(filteredData);
+                calculateMetrics(filteredData);
             });
-    }, []);
+    }, [filterDates]);
 
     // Function to calculate various metrics such as total sold, most popular etc.
     const calculateMetrics = (data: Product[]) => {

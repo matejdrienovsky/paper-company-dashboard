@@ -43,7 +43,9 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
                 stroke: { lineCap: 'round', curve: 'smooth' },
                 markers: { size: 0 },
                 xaxis: {
-                    labels: { style: { colors: '#260065', fontSize: '12px', fontFamily: 'inherit', fontWeight: 400 }},
+                    labels: {
+                        style: {colors: '#260065', fontSize: '12px', fontFamily: 'inherit', fontWeight: 400}, format: 'MMM',
+                    },
                     type: 'datetime',
                 },
                 yaxis: {
