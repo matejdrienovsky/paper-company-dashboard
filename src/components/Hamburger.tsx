@@ -7,7 +7,7 @@ const NavLink: FC<{ href: string, label: string }> = ({ href, label }) => (
 );
 
 const HamburgerButton: FC<{ onClick: () => void, navOpen: boolean }> = ({ onClick, navOpen }) => (
-    <button role="button" className="lg:hidden pl-4 absolute bottom-2 left-0" onClick={onClick}>
+    <button role="button" className="lg:hidden px-4 py-2 absolute bottom-2 left-0 bg-white" onClick={onClick}>
         {navOpen ? (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18 6L6 18" stroke="#260065" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -26,6 +26,7 @@ const Hamburger = () => {
     const routes = [
         { path: '/products', label: 'Products' },
         { path: '/dashboard', label: 'Dashboard' },
+        { path: '/about', label: 'About' },
         { path: '/terms', label: 'Terms' },
         { path: '/shipping', label: 'Shipping' },
     ];

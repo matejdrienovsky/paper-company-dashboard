@@ -1,11 +1,12 @@
 import Header from "./Header";
-import Navbar from "./Navbar";
+import Dashboard from "./Dashboard.tsx";
+import React from "react";
 
 const ContentSection: React.FC = () => {
     return (
         <section className="row-span-10 col-span-6 flex flex-col h-screen">
             <Header/>
-            <Navbar/>
+            <Dashboard/>
         </section>
     );
 };
