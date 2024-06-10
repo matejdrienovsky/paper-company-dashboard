@@ -1,4 +1,8 @@
 import SalesAnalytics from "./SalesAnalytics.tsx";
+import Filter from "./Filter.tsx";
+import {useState} from "react";
+
+
 
 // Define the Dashboard component to display the sales analytics with the buttons
 const Dashboard = () => {
@@ -16,9 +20,15 @@ const Dashboard = () => {
         </button>
     );
 
+
     // An array of strings to be used as button titles.
     const buttonTitles = ["OVERVIEW", "ALL PRODUCTS"];
 
+    // Define filter state in Dashboard component
+    const [filterDates, setFilterDates] = useState({
+        startDate: '1900-01-01',
+        endDate: '2099-12-31'
+    });
 
     return (
         <section className="flex-1 flex-col justify-between w-full">
@@ -33,10 +43,14 @@ const Dashboard = () => {
                 <div className="flex flex-row gap-x-8 overflow-x-auto no-scrollbar text-xs md:text-sm lg:text-base">
                     {buttonTitles.map(title => <Button title={title} key={title} />)}
                 </div>
+
+                {/* Render the Filter component */}
+                <Filter setFilterDates={setFilterDates}/>
+
             </section>
 
             {/* Render the SalesAnalytics component */}
-            <SalesAnalytics/>
+            <SalesAnalytics filterDates={filterDates}/>
 
         </section>
     );
