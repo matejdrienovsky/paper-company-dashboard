@@ -11,7 +11,7 @@ RUN npm install
 
 # Copy the rest of the application files to the working directory
 COPY . .
-
+COPY index.html ./index.html
 # Build the React application
 RUN npm run build
 
