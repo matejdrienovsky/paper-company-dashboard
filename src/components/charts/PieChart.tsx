@@ -2,6 +2,7 @@ import React from 'react';
 import Chart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
 
+// Defining the type for product data associated to each product
 type ProductData = {
     id: number,
     name: string,
@@ -10,10 +11,12 @@ type ProductData = {
     sale_date: string
 };
 
+// Defining the type for the props expected by the PieChart component
 type PieChartProps = {
     data: ProductData[]
 };
 
+// Function that calculates and returns the total quantity sold for each product
 const getProductCount = (data: ProductData[]): { [key: string]: number } => {
     const productCount: { [key: string]: number } = {};
 
@@ -28,30 +31,33 @@ const getProductCount = (data: ProductData[]): { [key: string]: number } => {
     return productCount;
 };
 
+// Defines the PieChart component
 const PieChart: React.FC<PieChartProps> = ({ data }) => {
-    // Calculate product count
+
+    // Call the getProductCount function to get the total quantity sold for each product
     const productCount = getProductCount(data);
 
+    // Define the options for the pie chart using ApexCharts
     const options: ApexOptions = {
         labels: Object.keys(productCount),
         chart: { type: 'pie' },
         dataLabels: {
             enabled: true,
             formatter: function (_, opts) {
-                // Provides the correct label for each pie slice
                 return options.labels?.[opts.seriesIndex] || '';
             }
         },
         colors: ["#6991E5","#DDF0FF", "#FEEBBB","#EABAC2","#CE5374"],
         legend: {
-            show: false  // Hides the legend
+            show: false
         }
     };
 
+    // Render the PieChart component from react-apexcharts with the provided options and series data
     return (
         <Chart
             options={options}
-            series={Object.values(productCount)}   // The values for each pie slice
+            series={Object.values(productCount)}
             type='pie'
             width={280}
             height={280}

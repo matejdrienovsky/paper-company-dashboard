@@ -4,6 +4,7 @@ import ScrollableContent from "./ScrollableContent.tsx";
 import ChartsComponent from "./charts/ChartsComponent.tsx";
 import InformationList from "./InformationList.tsx";
 
+// Defines a TypeScript interface for the product
 interface Product {
     id: number;
     name: string;
@@ -13,6 +14,8 @@ interface Product {
 }
 
 const SalesAnalytics: React.FC = () => {
+
+    // Using react hooks to set and update state for various data fields
     const [products, setProducts] = useState<Product[]>([]);
     const [totalSold, setTotalSold] = useState<number>(0);
     const [mostPopular, setMostPopular] = useState<string>('');
@@ -21,8 +24,9 @@ const SalesAnalytics: React.FC = () => {
     const [bestMonth, setBestMonth] = useState<string>('');
     const [worstMonth, setWorstMonth] = useState<string>('');
 
+    // Fetch the data from the JSON file and set the state
     useEffect(() => {
-        axios.get('../../public/paper-sales.json')
+        axios.get('/paper-sales.json')
             .then(response => {
                 const data: Product[] = response.data.products;
                 setProducts(data);
@@ -30,16 +34,18 @@ const SalesAnalytics: React.FC = () => {
             });
     }, []);
 
+    // Function to calculate various metrics such as total sold, most popular etc.
     const calculateMetrics = (data: Product[]) => {
         const totalSold = data.reduce((acc, product) => acc + product.quantity_sold, 0);
         const mostPopular = data.reduce((prev, current) => (prev.quantity_sold > current.quantity_sold) ? prev : current).name;
         const totalRevenue = data.reduce((acc, product) => acc + (product.quantity_sold * product.price_per_unit), 0);
         const leastPopular = data.reduce((prev, current) => (prev.quantity_sold < current.quantity_sold) ? prev : current).name;
 
+        // Logic to calculate sales by month and find best and worst month
         const salesByMonth: { [key: string]: number } = {};
         const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
         data.forEach((product) => {
-            // assuming sale_date is in format YYYY-MM-DD
             const month = product.sale_date.split('-')[1];
 
             if(salesByMonth[month]) {
@@ -49,11 +55,15 @@ const SalesAnalytics: React.FC = () => {
             }
         });
 
+        // Finds best and worst month based on sales
         const bestMonthNumber = Object.keys(salesByMonth).reduce((a, b) => salesByMonth[a] > salesByMonth[b] ? a : b);
         const worstMonthNumber = Object.keys(salesByMonth).reduce((a, b) => salesByMonth[a] < salesByMonth[b] ? a : b);
 
+        // Get actual month name by comparing the month number with the array of month names
         const bestMonth = monthNames[parseInt(bestMonthNumber)];
         const worstMonth = monthNames[parseInt(worstMonthNumber)];
+
+        // set the calculated values in the state
         setTotalSold(totalSold);
         setMostPopular(mostPopular);
         setTotalRevenue(totalRevenue);
@@ -62,6 +72,7 @@ const SalesAnalytics: React.FC = () => {
         setWorstMonth(worstMonth);
     };
 
+    // Render the ScrollableContent with  ChartsComponent and InformationList components with provided data
     return (
         <ScrollableContent>
             <ChartsComponent data={products}/>
