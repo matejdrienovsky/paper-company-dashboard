@@ -2,8 +2,6 @@ import SalesAnalytics from "./SalesAnalytics.tsx";
 import Filter from "./Filter.tsx";
 import {useState} from "react";
 
-
-
 // Define the Dashboard component to display the sales analytics with the buttons
 const Dashboard = () => {
 
@@ -39,7 +37,7 @@ const Dashboard = () => {
             </h2>
 
             {/* Buttons to switch between the analytics */}
-            <section className="flex flex-row justify-between px-4 border-b-2 border-[#260065] pt-2 pb-1">
+            <section className="flex flex-row justify-between px-4 border-b-2 border-[#260065] pt-2">
                 <div className="flex flex-row gap-x-8 overflow-x-auto no-scrollbar text-xs md:text-sm lg:text-base">
                     {buttonTitles.map(title => <Button title={title} key={title} />)}
                 </div>
