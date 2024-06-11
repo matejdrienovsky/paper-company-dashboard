@@ -14,14 +14,15 @@ interface InformationListProps {
 interface InfoItemProps {
     title: string,
     count: string,
-    isAlternate?: boolean
+    isAlternate?: boolean,
+    isLast?: boolean
 }
 
 // Create a Function Component InfoItem with properties unpacked from InfoItemProps
-const InfoItem: React.FC<InfoItemProps>  = ({ title, count, isAlternate }) => {
+const InfoItem: React.FC<InfoItemProps>  = ({ title, count, isAlternate,isLast}) => {
     return (
         // Div containing title and count, background color is toggled by isAlternate prop
-        <div className={`flex flex-row justify-between ${isAlternate ? "bg-[#F5F5F5]" : ""} mx-2 xl:mx-10 py-3`}>
+        <div className={`flex flex-row justify-between ${isLast ? "mb-2" : ""} ${isAlternate ? "bg-[#F5F5F5]" : ""} mx-2 xl:mx-10 py-3`}>
             <div className="flex flex-col pl-4">
                 <h3 className="max-sm:text-base text-lg font-semibold">{title}</h3>
             </div>
@@ -42,7 +43,7 @@ const InformationList: React.FC<InformationListProps> = ({ totalSold, mostPopula
             <InfoItem title="Most Popular" count={mostPopular} isAlternate/>
             <InfoItem title={"Least Popular"} count={leastPopular} />
             <InfoItem title={"Best Month"} count={bestMonth} isAlternate/>
-            <InfoItem title={"Worst Month"} count={worstMonth} />
+            <InfoItem title={"Worst Month"} count={worstMonth} isLast/>
         </div>
     );
 }
